@@ -6,8 +6,8 @@ from . import __trash
 CON_KEY = encrypt.decrypter(encrypt.decrypter(encrypt.decrypter(encrypt.decrypter((__trash.retTr())))))
 print(CON_KEY)
 
-# from_ = "http://127.0.0.1:781"
-from_ = "https://sarahdb.pythonanywhere.com"
+from_ = "http://127.0.0.1:781"
+# from_ = "https://sarahdb.pythonanywhere.com"
 
 link_prefix = f"{from_}/{CON_KEY}/handler"
 
