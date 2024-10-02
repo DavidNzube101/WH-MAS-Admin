@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Note100 • Continue to Payment</title>
+	<link rel="icon" href=" {{ url_for('static', filename='media/logo-1.png') }} ">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		body{
+			height: 100vh;
+			display: grid;
+			place-items: center;
+		}
+		form{
+			display: grid;
+			place-items: center;
+			background: #f5f5f5;
+			height: fit-content;
+			width: fit-content;
+			padding: 20px;
+			margin: 10px;
+			border-radius: 20px;
+		}
+		button{
+			background: #67b6ce;
+			outline: none;
+			border: 0;
+			padding: 10px;
+			margin: 10px;
+			color: white;
+			width: 80%;
+			border-radius: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div style="display: grid; place-items: center;">
+		
+
+		{% if CUser['is_premium_account'] == "False" %}
+			<form action="/proceed-payments" method="POST">
+				<input type="hidden" name="price" value="1000">
+
+				<h2>Continue To Paystack</h2>
+				<p align="center">You will be redirected to <b>Paystack</b> to complete payment</p>
+				<button>Pay NGN 1,000</button>
+				<a href="/dashboard" style="width: 100%; display: grid; place-items: center; text-decoration: none;"><button type="button" style="background: white; outline: none; border: 0; padding: 10px; margin: 10px; color: #67b6ce; width: 80%; border-radius: 20px;">Go back</button></a>
+			</form>
+		{% else %}
+			<button><a style="color: white; text-decoration: none;" href="/dashboard">Proceed to Dashboard</a></button>
+		{% endif %}
+	</div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="{{ url_for('static', filename='media/logo-mini.png') }}">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard-styles.css') }} ">
+	<style type="text/css">
+		body{
+			margin: 0;
+			padding: 0;
+			display: grid;
+			place-items: center;
+			height: 100vh;
+			box-sizing: border-box;
+			background: aliceblue;
+			font-family: "DM Sans";
+		}
+	</style>
+	<title>Oops, something went wrong</title>
+	<script src="{{ url_for('static', filename='js/WRLDForm.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/App.js') }}"></script>
+</head>
+<body>
+	<img src="{{ url_for('static', filename='media/logo-mini.png') }}">
+	<h1>Oops! Something<br>went wrong.</h1>
+	{% if code == 404 %}
+		<h2>Page not found!</h2>
+		<p align="center" style="width: 80%;">You visited or have been redirected to an invalid URL on our server.</p>
+		<div style="width: 90%; font-family: monospace; color: grey; background: white; padding: 10px; border-radius: 20px;">
+			<p>Report Details</p>
+			<ol style="max-width: 100%;">
+				<li>APP ERROR</li>
+				<li>ERROR CODE: {{ code }}</li>
+				<li>ERROR DESCRIPTION: {{ error }}</li>
+				<li>ERROR ID: {{ err_id }}</li>
+			</ol>
+		</div>
+		<div class="grid-container">
+			<p class="status-text" style="display: none;"></p>
+			<button class="inverted-button" onclick="goToRoute('/dashboard', ['GET', {}])">Go home</button>
+		</div>
+	{% elif code == 500 %}
+		<!-- <p>An error has been encountered!</p> -->
+		<div style="width: 90%; font-family: monospace; color: grey; background: white; padding: 10px; border-radius: 20px;">
+			<p>Crash Report</p>
+			<ol style="max-width: 100%;">
+				<li>APP ERROR</li>
+				<li>ERROR CODE: {{ code }}</li>
+				<li>ERROR DESCRIPTION: {{ error }}</li>
+				<li>ERROR ID: {{ err_id }}</li>
+			</ol>
+		</div>
+		<div class="grid-container">
+			<p class="status-text" style="display: none;"></p>
+			<p align="center" style="color: grey; width: 80%;">Send the report of this crash to <b>Voho</b>. You won't have to fill anything, just tap the button.</p>
+			<button class="standard-button" onclick="submitForm()">Send a crash report</button>
+			<button class="inverted-button" onclick="goToRoute('/dashboard', ['GET', {}])">Go home</button>
+		</div>
+		<script type="text/javascript">
+			function submitForm () {
+				form_data = new FormData()
+				form_data.append('code', "{{ code }}")
+				form_data.append('desc', "{{ error }}")
+				form_data.append('error_id', "{{ err_id }}")
+				{% if CUser != "None": %}
+					form_data.append('user_reg_number', "{{ err_id }}")
+				{% else %}
+					form_data.append('user_reg_number', "None")
+				{% endif %}
+				fetch('/submit-crash-report', {
+					method: 'POST',
+					body: form_data
+				})
+				showStatusText('flex', 'Report sent successfully!', 'success')
+				setTimeout(()=>{
+					hideStatusText()
+				} , 5000)
+				// location.reload()
+			}
+		</script>
+	{% endif %}
+	<script type="text/javascript">
+		setTimeout(()=>{
+			form_data = new FormData()
+			form_data.append('code', "{{ code }}")
+			
+			{% if code == 404 %}
+				form_data.append('desc', `Invalid Page Visited. Page = ${location.href}`)
+			{% else %}
+				form_data.append('desc', "{{ error }}")
+			{% endif %}
+
+			form_data.append('error_id', "{{ err_id }}")
+			
+			{% if CUser != "None": %}
+				form_data.append('user_reg_number', "{{ CUser['reg_number'] }}")
+			{% else %}
+				form_data.append('user_reg_number', "None")
+			{% endif %}
+			fetch('/submit-crash-report', {
+				method: 'POST',
+				body: form_data
+			})
+			showStatusText('flex', 'Automatically redirecting you!', 'success')
+			setTimeout(()=>{
+				hideStatusText()
+			} , 5000)
+			// location.reload()
+			goToRoute('/dashboard', ['GET', {}])
+		} , 15000)
+	</script>
+
+	
+</body>
+</html>

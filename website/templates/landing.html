@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voho - Your Academic Collaboration Hub</title>
+    <link rel="icon" href="{{ url_for('static', filename='media/logo-mini.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta property="og:title" content="Voho - Academic Collaboration Platform">
+    <meta property="og:description" content="Connect, collaborate, and excel in your studies with Voho">
+    <meta property="og:image" content="{{ url_for('static', filename='media/logo-banner-two.png') }}">
+    <meta property="og:url" content="https://voho-web.vercel.app">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: aliceblue;
+            font-family: "DM Sans", sans-serif;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .hero {
+            text-align: center;
+            padding: 50px 0;
+        }
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 50px 0;
+        }
+        .feature {
+            flex-basis: calc(25% - 20px);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .cta {
+            text-align: center;
+            margin: 50px 0;
+        }
+        .footer {
+            background: #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <img src="{{ url_for('static', filename='media/logo-medium.png') }}" alt="Voho Logo">
+            <h1>Welcome to <span style="font-weight: 900;">Voho</span></h1>
+            <p>Your Student-Centric Academic Collaboration Platform</p>
+            <p>Connect, Share, Learn, and Excel in Your Studies</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <img src="{{ url_for('static', filename='media/icons/icons8-course-assign-48.png') }}" alt="Assignment Icon" style="width: 50px;">
+                <h3>Assignment Sharing</h3>
+                <p>Post assignments and get help from peers and experts</p>
+            </div>
+            <div class="feature">
+                <img src="{{ url_for('static', filename='media/icons/icons8-solution-48.png') }}" alt="Solution Icon" style="width: 50px;">
+                <h3>Solution Sharing</h3>
+                <p>Share and learn from others' solutions</p>
+            </div>
+            <div class="feature">
+                <img src="{{ url_for('static', filename='media/icons/icons8-expert-48.png') }}" alt="Expert Icon" style="width: 50px;">
+                <h3>Expert Assistance</h3>
+                <p>Get personalized help from tutors and experts</p>
+            </div>
+            <div class="feature">
+                <img src="{{ url_for('static', filename='media/icons/icons8-community-48.png') }}" alt="Community Icon" style="width: 50px;">
+                <h3>Community Building</h3>
+                <p>Connect with peers, network, and grow together</p>
+            </div>
+        </div>
+
+        <div class="cta">
+            <h2>Ready to Transform Your Academic Journey?</h2>
+            <div style="display: flex; align-items: center; justify-content: space-evenly; width: 100%;">
+            	<button onclick="goToRoute('/signup', ['GET', {}])" class="button-main button">Get Started!</button>
+            	<button onclick="goToRoute('/login', ['GET', {}])" class="button-secondary button">Login</button>
+            </div>
+        </div>
+
+        <div class="about">
+            <h2>About Voho</h2>
+            <p>Voho is designed for students at all levels - high school, college, and university. We're here to simplify your academic process by providing a central hub for collaboration and support. Join our community to improve your learning outcomes and connect with like-minded individuals passionate about education.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div style="display: flex; align-items: center; justify-content: space-around; width: 100%;">
+            <div>
+                <p>Mail me 
+                    <a target="_blank" href="mailto:david.nzube.official22@gmail.com" style="color: black; text-decoration: none;">
+                        <span style="display: flex; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 10px; align-items: center; justify-content: center;">
+                            <img src="{{ url_for('static', filename='media/icons/mail.png') }}" style="height: 30px; width: 30px;" alt="Email">
+                        </span>
+                    </a>
+                </p>
+            </div>
+            <div>
+                <p>Built by 
+                    <a target="_blank" href="https://www.github.com/DavidNzube101" style="color: black; text-decoration: none;">
+                        <span style="display: flex; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 10px; align-items: center; justify-content: space-between;">
+                            <img src="{{ url_for('static', filename='media/icons/github.png') }}" style="height: 30px; width: 30px;" alt="GitHub">&nbsp;&nbsp;
+                            <span style="font-weight: 600; font-family: monospace;">Skipp</span>
+                        </span>
+                    </a>
+                </p>
+            </div>
+            <div>
+                <p>Chat me 
+                    <a target="_blank" href="https://www.wa.me/2348171348088" style="color: black; text-decoration: none;">
+                        <span style="display: flex; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 10px; align-items: center; justify-content: center;">
+                            <img src="{{ url_for('static', filename='media/icons/whatsApp.png') }}" style="height: 30px; width: 30px;" alt="WhatsApp">
+                        </span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/App.js') }}"></script>
+</body>
+</html>

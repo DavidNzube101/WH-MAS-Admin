@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Dashboard | Voho</title>
+	<link rel="icon" href="{{ url_for('static', filename='media/logo-mini.png') }}">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard-styles.css') }} ">
+	<style type="text/css">
+		body{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			background: aliceblue;
+			font-family: "DM Sans";
+		}
+	</style>
+    <!-- <script src="{{ url_for('static', filename='js/WRLDForm.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='js/ModalFlash.js') }}"></script>
+	<script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
+    <script src="{{ url_for('static', filename='js/MonnifyScript.js') }}"></script>
+</head>
+<body>
+	{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+	  {% for category, message in messages %}
+	    {% if category[0] == 'EOC' %}
+	      <div id="modal" class="modal-flash">
+	          <div class="modal-content-flash" style=" color: black;">
+		            <div style="display: flex; align-items: center; justify-content: space-around; width: 100%;">
+		              <span class="close-flash" id="closeModalBtn-flash">&times;</span>
+		              <img src="{{ url_for('static', filename='media/icons/myicon-cross.png') }}" style="height: 60px; width: 60px;">
+		              <div>
+		              	<h2 align="left" style="color: #000">{{ category[1] }}</h2>
+		              	<p align="left">{{ message }}</p>
+		              </div>
+		          	</div>
+		          	<h1>&nbsp;</h1>
+	          </div>
+	      </div>
+	    {% elif category[0] == 'TAL' %}
+	      <div id="modal" class="modal-flash">
+	          <div class="modal-content-flash" style=" color: black;">
+		            <div style="display: flex; align-items: center; justify-content: space-around; width: 100%;">
+		              <span class="close-flash" id="closeModalBtn-flash">&times;</span>
+		              <img src="{{ url_for('static', filename='media/icons/myicon-cross.png') }}" style="height: 60px; width: 60px;">
+		              <div>
+		              	<h2 align="left" style="color: #000">{{ category[1] }}</h2>
+		              	<p align="left">{{ message }}</p>
+		              </div>
+		          	</div>
+		          	<h1>&nbsp;</h1>
+	          </div>
+	      </div>
+	    {% elif category[0] == 'SUC' %}
+	      <div id="modal" class="modal-flash">
+	          <div class="modal-content-flash" style=" color: black;">
+		            <div style="display: flex; align-items: center; justify-content: space-around; width: 100%;">
+		              <span class="close-flash" id="closeModalBtn-flash">&times;</span>
+		              <img src="{{ url_for('static', filename='media/icons/myicon-check.png') }}" style="height: 60px; width: 60px;">
+		              <div>
+		              	<h2 align="left" style="color: #000">{{ category[1] }}</h2>
+		              	<p align="left">{{ message }}</p>
+		              </div>
+		          	</div>
+		          	<h1>&nbsp;</h1>
+	          </div>
+	      </div>
+	    {% else %}
+	      <div id="modal" class="modal-flash">
+	          <div class="modal-content-flash" style=" color: black;">
+		            <div style="display: flex; align-items: center; justify-content: space-around; width: 100%;">
+		              <span class="close-flash" id="closeModalBtn-flash">&times;</span>
+		              <img src="{{ url_for('static', filename='media/icons/myicon-info.png') }}" style="height: 60px; width: 60px;">
+		              <div>
+		              	<h2 align="left" style="color: #000">{{ category[1] }}</h2>
+		              	<p align="left">{{ message }}</p>
+		              </div>
+		          	</div>
+		          	<h1>&nbsp;</h1>
+	          </div>
+	      </div>
+	    {% endif %}
+	  {% endfor %}
+	{% endif %}
+	{% endwith %}
+	<script type="text/javascript">
+		const modal_flash = document.querySelector('.modal-flash');
+		try{
+		    const closeModalBtn_flash = document.getElementById('closeModalBtn-flash');
+
+		    // Close the modal
+		    closeModalBtn_flash.addEventListener('click', () => {
+		        modal_flash.style.display = 'none';
+		    });
+		} catch (error) {
+		    console.log('error')
+		}
+
+
+		// Close the modal if the user clicks outside the modal content
+		window.addEventListener('click', (event) => {
+		    if (event.target === modal_flash) {
+		        modal_flash.style.display = 'none';
+		    }
+		});
+	</script>
+
+	<main>
+		dashboard
+	</main>
+
+	<nav>
+		<img src="{{ url_for('static', filename='media/icons/icons8-home-48.png') }}" id="home-tab" class="tab active-tab" onclick="goToScreen(this, 'home-screen', 'block')">
+		<img src="{{ url_for('static', filename='media/icons/icons8-plus-50.png') }}" id="new-tab" class="tab" onclick="goToScreen(this, 'new-screen', 'block')">
+		<div onclick="goToScreen(this, 'notification-screen', 'block')" id="notification-tab" class="tab" style="position: relative;">
+			<img src="{{ url_for('static', filename='media/icons/icons8-bell-24.png') }}">
+			{% if NotificationCount > 9 %}
+				{% if NotificationCount > 0 %}
+					<div style="position: absolute; top: -10px; left: 20px; aspect-ratio: 1/1; width: 5px; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 10pc; background: #00cc17; color: white; height: 5px;">
+						{{ NotificationCount }}
+					</div>
+				{% endif %}
+			{% else %}
+				<div style="position: absolute; top: -10px; left: 20px; aspect-ratio: 1/1; width: 5px; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 10pc; background: #00cc17; color: white; height: 5px;">
+					9+
+				</div>
+			{% endif %}
+		</div>
+		<img src="{{ url_for('static', filename='media/icons/icons8-book-shelf-30.png') }}" onclick="goToScreen(this, 'learning-materials-screen', 'block')" id="study-tab" class="tab">
+		</div>
+		<div onclick="goToScreen(this, 'profile-screen', 'block')" id="profile-tab" class="tab">
+			<img src="{{ url_for('static', filename='media/assets/profile_pictures/' + CUser["profile_picture"]) }}">
+		</div>
+		<style type="text/css">
+			#notification-tab{
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			#notification-tab img{
+				height: 40px;
+				width: 40px;
+			}
+		</style>
+		<!-- <img src="{{ url_for('static', filename='media/icons/') }}" id="-tab" class="tab"> -->
+	</nav>
+
+<script type="text/javascript">
+	current_screen = "{{ ScreenID }}"
+	N100PremiumStatus = "{{ N100Profile['is_premium_account'] }}"
+</script>
+<script src="{{ url_for('static', filename='js/App.js') }}"></script>
+<script src="{{ url_for('static', filename='js/Screen_Manager.js') }}"></script>
+<script src="{{ url_for('static', filename='js/Note100JS.js') }}"></script>
+<script type="text/javascript">
+	loadScreen(current_screen)
+</script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyC4AdryYRGmUNeC7B3OoB3wxaRhHq9NPzg",
+    authDomain: "voho-backend-service.firebaseapp.com",
+    projectId: "voho-backend-service",
+    storageBucket: "voho-backend-service.appspot.com",
+    messagingSenderId: "745116157149",
+    appId: "1:745116157149:web:516039e12eef30f658c734",
+    measurementId: "G-HT90XE4G6F"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+<script>
+	if ((location.href).search("/dashboard/Note100/notes/") !== -1) {
+		openNoteScreen("{{ PassedNoteID }}")
+	}
+</script>
+</body>
+</html>
